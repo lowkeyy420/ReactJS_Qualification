@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Image,
@@ -10,18 +10,35 @@ import {
   Tooltip,
   Stack,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import FavouritesContext from "../store/Favourites-context";
 
 function Astronomy(props) {
-  let boxBg = useColorModeValue("blue.100 !important", "#111c44 !important");
+  let boxBg = useColorModeValue("blue.50 !important", "#111c44 !important");
   let mainText = useColorModeValue("gray.800", "white");
   let iconBox = useColorModeValue("gray.100", "whiteAlpha.200");
 
+  const favouriteCtx = useContext(FavouritesContext);
+  const itemIsFavourite = favouriteCtx.isItemFavorite(props.id);
+
   function favouriteHandler() {
-    alert("Hacked");
+    if (itemIsFavourite) {
+      favouriteCtx.removeFavorite(props.id);
+    } else {
+      favouriteCtx.addFavorite({
+        key: props.id,
+        id: props.id,
+        title: props.title,
+        copyright: props.copyright,
+        date: props.date,
+        url: props.url,
+      });
+    }
   }
 
   return (
     <Flex
+      key={props.key}
       borderRadius="20px"
       bg={boxBg}
       p="20px"
@@ -42,9 +59,13 @@ function Astronomy(props) {
           {props.title}
         </Text>
 
-        <Tooltip label="Add To Favs">
+        <Tooltip
+          label={
+            itemIsFavourite ? "Remove from favourites" : "Add to favourites"
+          }
+        >
           <IconButton
-            icon={<AddIcon />}
+            icon={itemIsFavourite ? <MinusIcon /> : <AddIcon />}
             isRound="true"
             onClick={favouriteHandler}
             bg={iconBox}
@@ -53,7 +74,7 @@ function Astronomy(props) {
       </Flex>
       <Stack overflow="hidden">
         <Image
-          src={props.link}
+          src={props.url}
           borderRadius="20px"
           mb="10px"
           alt={props.title}
@@ -74,13 +95,13 @@ function Astronomy(props) {
         <DarkMode>
           <Center
             size="md"
-            color="limegreen"
+            color="purple.600"
             textAlign="center"
             display="flex"
             justifyContent="center"
             alignItems="center"
           >
-            <Text fontSize="x-large">{props.desc}</Text>
+            <Text fontSize="x-large">{props.copyright}</Text>
           </Center>
         </DarkMode>
       </Flex>

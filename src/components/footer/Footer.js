@@ -12,6 +12,7 @@ export default function Footer() {
       mt="20px"
       bg={useColorModeValue("gray.50", "gray.900")}
       color={useColorModeValue("gray.700", "gray.200")}
+      height="calc(100% - 60px);"
     >
       <Container
         as={Stack}

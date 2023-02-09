@@ -5,7 +5,7 @@ import { useAstronomy } from "../components/hooks/UseAstonomy";
 import Layout from "../components/layout/Layout";
 
 function HomePage() {
-  const data = useAstronomy();
+  const data = useAstronomy(1);
 
   return (
     <Layout>
@@ -18,10 +18,12 @@ function HomePage() {
           </Heading>
           {data && (
             <Astronomy
+              key={data.astronomies.id}
+              id={data.astronomies.id}
               title={data.astronomies.title}
-              desc={data.astronomies.copyright}
+              copyright={data.astronomies.copyright}
               date={data.astronomies.date}
-              link={data.astronomies.url}
+              url={data.astronomies.url}
             />
           )}
         </Flex>

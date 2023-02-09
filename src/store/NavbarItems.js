@@ -9,6 +9,7 @@ export const NAV_ITEMS = [
   },
   {
     label: "Favourites",
+    href: "/favourites",
     children: [
       {
         label: "Check Favourites",
